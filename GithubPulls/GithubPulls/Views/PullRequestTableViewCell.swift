@@ -96,4 +96,16 @@ class PullRequestTableViewCell: UITableViewCell {
         constraints.append(userImageView.heightAnchor.constraint(equalToConstant: imageSize))
         NSLayoutConstraint.activate(constraints)
     }
+    
+    func updateCell(with viewModel: PullsCellViewModel) {
+        title.text = viewModel.title
+        userName.text = viewModel.userName
+        createdLabel.text = viewModel.createdAt
+        closedLabel.text = viewModel.closedAt
+        viewModel.getImage { [weak self] image in
+            DispatchQueue.main.async {
+                self?.userImageView.image = image
+            }
+        }
+    }
 }
