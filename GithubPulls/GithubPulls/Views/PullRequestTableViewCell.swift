@@ -12,6 +12,7 @@ class PullRequestTableViewCell: UITableViewCell {
         label.font = .systemFont(ofSize: 18)
         label.numberOfLines = 0
         label.setContentHuggingPriority(.required, for: .vertical)
+        label.setContentCompressionResistancePriority(.required, for: .vertical)
         return label
     }()
     
@@ -27,6 +28,7 @@ class PullRequestTableViewCell: UITableViewCell {
         let label = UILabel()
         label.font = .systemFont(ofSize: 14)
         label.textColor = .darkGray
+        label.setContentHuggingPriority(.defaultHigh, for: .vertical)
         return label
     }()
     
@@ -34,6 +36,7 @@ class PullRequestTableViewCell: UITableViewCell {
         let label = UILabel()
         label.font = .systemFont(ofSize: 14)
         label.textColor = .darkGray
+        label.setContentCompressionResistancePriority(.defaultHigh, for: .vertical)
         return label
     }()
     

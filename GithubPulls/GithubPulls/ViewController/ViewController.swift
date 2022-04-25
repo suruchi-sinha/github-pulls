@@ -7,8 +7,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     private lazy var tableView: UITableView = {
         let tableview = UITableView()
         tableview.translatesAutoresizingMaskIntoConstraints = false
-        tableView.estimatedRowHeight = 200.0
-        tableView.rowHeight = UITableView.automaticDimension
+        tableview.estimatedRowHeight = 100.0
+        tableview.rowHeight = UITableView.automaticDimension
         tableview.register(PullRequestTableViewCell.self, forCellReuseIdentifier: PullRequestTableViewCell.reusableIdentifier)
         return tableview
     }()
@@ -30,9 +30,9 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
     
     private func setupCallback() {
-        viewModel.resultsFetched = { [weak self] in
+        viewModel.resultsFetched = {
             DispatchQueue.main.async {
-                self?.reLoadList()
+                self.reLoadList()
             }
         }
     }
