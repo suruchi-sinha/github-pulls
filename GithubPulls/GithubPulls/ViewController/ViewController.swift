@@ -2,10 +2,13 @@ import UIKit
 
 class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
+    var viewModel: PullListViewModel = PullListViewModelImpl()
+    
     private lazy var tableView: UITableView = {
         let tableview = UITableView()
         tableview.translatesAutoresizingMaskIntoConstraints = false
-        tableview.estimatedRowHeight = UITableView.automaticDimension
+        tableView.estimatedRowHeight = 200.0
+        tableView.rowHeight = UITableView.automaticDimension
         tableview.register(PullRequestTableViewCell.self, forCellReuseIdentifier: PullRequestTableViewCell.reusableIdentifier)
         return tableview
     }()
@@ -16,6 +19,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         setupView()
         setupCallback()
         setUpConstraints()
+        viewModel.fetchClosedPullsList()
     }
     
     private func setupView() {
@@ -26,6 +30,11 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
     
     private func setupCallback() {
+        viewModel.resultsFetched = { [weak self] in
+            DispatchQueue.main.async {
+                self?.reLoadList()
+            }
+        }
     }
     
     private func setUpConstraints() {
@@ -42,13 +51,15 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 0
+        return viewModel.pullDetails?.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: PullRequestTableViewCell.reusableIdentifier, for: indexPath) as? PullRequestTableViewCell else {
             fatalError()
         }
+        let cellViewModel = viewModel.getCellViewModel(for: indexPath.row)
+        cell.updateCell(with: cellViewModel)
         return cell
     }
 }
