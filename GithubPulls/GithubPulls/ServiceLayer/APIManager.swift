@@ -13,7 +13,12 @@ struct User: Decodable {
     let avatarUrl: String
 }
 
-final class APIManager {
+protocol APIService {
+    func fetchClosedPullRequestsList(completion: @escaping (Result<[PullDetails], Error>)->())
+    func fetchImage(urlString: String, completion: @escaping (UIImage?) -> ())
+}
+
+final class APIManager: APIService {
     
     func fetchClosedPullRequestsList(completion: @escaping (Result<[PullDetails], Error>) -> ()) {
         
